@@ -41,3 +41,15 @@ Video Demonstration: [Insert Google Drive or YouTube Link Here]
 Team Members: Fabian Sedlmayr, Hashir Ahmad
 Contribution Report: See ContributionReport.pdf for breakdown of responsibilities
 ```
+```
+Install dependencies
+
+npm install
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npm install -D @tailwindcss/postcss
+npm install echarts
+npm install react react-dom
+npm install -D vite
+```
+
