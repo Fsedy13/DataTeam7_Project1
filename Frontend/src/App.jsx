@@ -6,14 +6,17 @@ import BookForm from './components/BookForm.jsx';
 
 export default function App() {
   // In‐memory book list
-  const [books, setBooks] = useState([
-    { id: 1, title: 'The Great Gatsby', isbn: '978-0743273565', price: 29.99, publication_year: 2024, stock: 150 },
-    { id: 2, title: 'To Kill a Mockingbird', isbn: '978-0446310789', price: 24.99, publication_year: 2023, stock: 200 },
-    { id: 3, title: '1984', isbn: '978-0451524935', price: 19.99, publication_year: 2024, stock: 175 },
-  ]);
+  const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [editBook, setEditBook] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:8081/books')
+      .then(res => res.json())
+      .then(data => setBooks(data))
+      .catch(err => console.error("Failed to fetch books:", err));
+  }, []);
 
   // Chart redraw on books change
   useEffect(() => {
