@@ -85,6 +85,7 @@ app.put('/books/:id', (req, res) => {
     if (err) return res.status(500).json(err);
     if (result.affectedRows === 0) return res.status(404).json({ message: "Book not found" });
     return res.status(200).json({ message: "Book updated" });
+    console.log("Received POST /books with body:", req.body)
   });
 });
 
@@ -102,6 +103,6 @@ app.delete('/books/:id', (req, res) => {
   });
 });
 
-app.listen(8081, () => {
-  console.log("🚀 Server listening on port 8081");
+app.listen(3001, () => {
+  console.log("🚀 Server listening on port 3001");
 });
