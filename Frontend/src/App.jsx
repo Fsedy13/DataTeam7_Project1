@@ -44,9 +44,20 @@ export default function App() {
     b.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleDelete = id => {
+ const handleDelete = async (id) => {
+  try {
+    const res = await fetch(`http://localhost:3001/books/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (!res.ok) throw new Error('Failed to delete book');
+
     setBooks(bs => bs.filter(b => b.id !== id));
-  };
+  } catch (err) {
+    console.error('Error deleting book:', err);
+    alert('Failed to delete book');
+  }
+};
 
   const openAdd = () => {
     setEditBook(null);
@@ -69,7 +80,7 @@ const handleSubmit = async (formData) => {
 
       if (!res.ok) throw new Error('Failed to update book');
 
-      setBooks(bs => bs.map(b => b.id === formData.id ? formData : b));
+    setBooks(bs => bs.map(b => b.id === formData.id ? formData : b));
     } else {
       // Add new book
       const res = await fetch('http://localhost:3001/books', {
