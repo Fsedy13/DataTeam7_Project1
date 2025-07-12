@@ -12,7 +12,7 @@ export default function App() {
   const [editBook, setEditBook] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8081/books')
+    fetch('http://localhost:3001/books')
       .then(res => res.json())
       .then(data => setBooks(data))
       .catch(err => console.error("Failed to fetch books:", err));
@@ -57,17 +57,39 @@ export default function App() {
     setShowForm(true);
   };
 
-  const handleSubmit = formData => {
+const handleSubmit = async (formData) => {
+  try {
     if (formData.id) {
-      // Update
+      // Update existing book
+      const res = await fetch(`http://localhost:3001/books/${formData.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error('Failed to update book');
+
       setBooks(bs => bs.map(b => b.id === formData.id ? formData : b));
     } else {
-      // Add new
-      const nextId = books.length ? Math.max(...books.map(b => b.id)) + 1 : 1;
-      setBooks(bs => [...bs, { ...formData, id: nextId }]);
+      // Add new book
+      const res = await fetch('http://localhost:3001/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error('Failed to add book');
+
+      const data = await res.json();
+      setBooks(bs => [...bs, { ...formData, id: data.insertedId }]);
     }
+
     setShowForm(false);
-  };
+  } catch (err) {
+    console.error('Error submitting book:', err);
+    alert('There was a problem saving the book: ${err.message}');
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50">
