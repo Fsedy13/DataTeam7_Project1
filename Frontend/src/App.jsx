@@ -35,7 +35,6 @@ export default function App() {
     });
   }, [books]);
 
-  // Handlers
   const handleSearch = term => setSearchTerm(term);
 
   const filtered = books.filter(b =>

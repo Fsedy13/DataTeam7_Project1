@@ -71,7 +71,7 @@ export default function BookForm({ book, onCancel, onSubmit }) {
           </button>
         </div>
 
-        {/* Form: horizontal layout */}
+        {}
         <form
           onSubmit={handleSubmit}
           className="px-6 py-4 flex flex-wrap items-end gap-4"
